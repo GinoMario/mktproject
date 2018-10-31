@@ -9,7 +9,7 @@ import campania.Variables;;
 
 public class Robot{
 	
-	String strCelular = "";
+	String strCelularDestino = "";
 	
 	 @FindBy(how = How.XPATH, using = "//*[@id=\"app\"]/div/div/div[2]/div[1]/div[2]/div/img")
 	  private WebElement imgQR;
@@ -33,7 +33,7 @@ public class Robot{
 	  private WebElement imgPerfil;
 
 	 @FindBy(how = How.XPATH, using = "//*[@id=\"app\"]/div/div/div[2]/div[1]/span/div/div/div/div[2]/div[2]/div/div/div[2]")
-	  private WebElement lblNumero;
+	  private WebElement lblNumeroOrigen;
 
 	 @FindBy(how = How.XPATH, using = "//*[@id=\"app\"]/div/div/div[2]/div[1]/span/div/div/header/div/div[1]/button/span")
 	  private WebElement btnBack;
@@ -50,20 +50,20 @@ public class Robot{
     { 
     	Util.esperaObjeto(imgPerfil);
 		imgPerfil.click();
-		Util.esperaObjeto(lblNumero);
-		Variables.str_numero_origen = lblNumero.getText();
+		Util.esperaObjeto(lblNumeroOrigen);
+		Variables.str_numero_origen = lblNumeroOrigen.getText();
 		btnBack.click();
     }
     
     public void abrirchat()
     {    	
     	try {
-    		strCelular = Variables.Rst_Pendiente.getString("NUMERO");
-			Variables.driver.get("https://api.whatsapp.com/send?phone="+strCelular);
+    		strCelularDestino = Variables.Rst_Pendiente.getString("NUMERO");
+			Variables.driver.get("https://api.whatsapp.com/send?phone="+strCelularDestino);
 			Util.esperaObjeto(btnEnviar);
 	    	btnEnviar.click();
 		} catch(Exception ex) {
-			Datos.escribirLog("Error al abrir chat para el número: " + strCelular);
+			Datos.escribirLog("Error al abrir chat para el número: " + strCelularDestino);
 			Datos.escribirLog("Detalle del error: "+ex.getMessage()); 
 		}    	
     }
@@ -78,10 +78,10 @@ public class Robot{
 	    	Util.invisibleObjeto(By.xpath("//span[@data-icon=\"msg-time\"]"));
 //	    	Thread.sleep(1500);
 	    	Datos.escribirLog("-----------------------------------------------");
-	    	Datos.escribirLog("Se envió el mensaje al número: " + strCelular);
+	    	Datos.escribirLog("Se envió el mensaje al número: " + strCelularDestino);
 	    	Datos.escribirLog("-----------------------------------------------");
     	} catch(Exception ex) {
-			Datos.escribirLog("ERROR al enviar mensaje al número: " + strCelular);
+			Datos.escribirLog("ERROR al enviar mensaje al número: " + strCelularDestino);
 			Datos.escribirLog("Detalle del ERROR: "+ex.getMessage()); 			
 		}    	
     }
