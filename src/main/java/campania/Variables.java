@@ -19,6 +19,7 @@ public class Variables {
 	public static BufferedWriter bw;
 	public static File archivo;
 	public static FileWriter fw;
+	public static String str_numero_origen= null;
 	
 //	Datos.Schedule("SQL","srvcampania.database.windows.net","BdCampania","lvs", "Jueves147@");
 	public static String Str_Motor ="SQL";

@@ -14,9 +14,11 @@ public class Principal{
     		
     		Datos.crearLog();
     		
+    		//ABRIR NAVEGADOR
     		Util.launchapp();
     		 		
-    		Robot robot = new Robot();			
+    		Robot robot = new Robot();
+    		//ABRIR WHATSAPP
     		robot.WspPage();			
 			
 			while(true){				

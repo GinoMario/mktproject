@@ -28,11 +28,31 @@ public class Robot{
 	 
 	 @FindBy(how = How.XPATH, using = "//span[@data-icon=\"msg-time\"]")
 	  private WebElement iconTime;
-	 
+
+	 @FindBy(how = How.XPATH, using = "//*[@id=\"side\"]/header/div[1]/div/img")
+	  private WebElement imgPerfil;
+
+	 @FindBy(how = How.XPATH, using = "//*[@id=\"app\"]/div/div/div[2]/div[1]/span/div/div/div/div[2]/div[2]/div/div/div[2]")
+	  private WebElement lblNumero;
+
+	 @FindBy(how = How.XPATH, using = "//*[@id=\"app\"]/div/div/div[2]/div[1]/span/div/div/header/div/div[1]/button/span")
+	  private WebElement btnBack;
+
     public void WspPage()
     { 
     	PageFactory.initElements(Variables.driver, this);
 		Util.esperaObjeto(imgCell);
+		
+		ObtenerNumero();
+    }
+    
+    public void ObtenerNumero()
+    { 
+    	Util.esperaObjeto(imgPerfil);
+		imgPerfil.click();
+		Util.esperaObjeto(lblNumero);
+		Variables.str_numero_origen = lblNumero.getText();
+		btnBack.click();
     }
     
     public void abrirchat()
@@ -63,7 +83,6 @@ public class Robot{
     	} catch(Exception ex) {
 			Datos.escribirLog("ERROR al enviar mensaje al número: " + strCelular);
 			Datos.escribirLog("Detalle del ERROR: "+ex.getMessage()); 			
-		}
-    	
+		}    	
     }
 }
