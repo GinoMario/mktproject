@@ -1,5 +1,7 @@
 package campania;
 
+import javax.swing.JOptionPane;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,7 +19,7 @@ public class Robot{
 	 @FindBy(how = How.XPATH, using = "//*[@id=\"app\"]/div/div/div[4]/div/div/div[2]/h1")
 	  private WebElement imgCell;	
 	 
-	 @FindBy(how = How.ID, using = "action-button")
+	 @FindBy(how = How.XPATH, using = "//a[@id=\"action-button\"]")
 	  private WebElement btnEnviar;	 
 
 	 @FindBy(how = How.XPATH, using = "//*[@id=\"main\"]/footer/div[1]/div[2]/div/div[2]")
@@ -40,10 +42,27 @@ public class Robot{
 
     public void WspPage()
     { 
-    	PageFactory.initElements(Variables.driver, this);
-		Util.esperaObjeto(imgCell);
-		
-		ObtenerNumero();
+    	try{
+    		PageFactory.initElements(Variables.driver, this);
+    		Util.esperaObjeto(imgQR);
+    		JOptionPane.showMessageDialog(null, "Escanee el codigo QR.\nLuego presione el botón Aceptar", "Whatsapp Automation", JOptionPane.INFORMATION_MESSAGE);
+    		Util.esperaObjeto(imgCell);
+    		Util.esperaObjeto(imgPerfil);
+    		imgPerfil.click();
+    		Util.esperaObjeto(lblNumeroOrigen);
+    		Variables.str_numero_origen = lblNumeroOrigen.getText();
+    		Datos.escribirLog("Se ingreso de manera correcta al número: "+Variables.str_numero_origen);
+    		btnBack.click();	
+    	}catch (Exception e) {
+    		Datos.escribirLog("Error: No se pudo ingresar de manera correcta a la pagina Whatsapp Web, por favor inicie nuevamente el robot. Error: "+e.getMessage());
+    		JOptionPane.showMessageDialog(null, "No se pudo ingresar de manera correcta a la pagina Whatsapp Web\nInicie nuevamente el robot.");
+    		cerrarPantallas();
+		}    	
+    }
+    public static void cerrarPantallas()
+    { 
+    	Variables.driver.close();
+    	System.exit(0);    	
     }
     
     public void ObtenerNumero()
@@ -65,24 +84,27 @@ public class Robot{
 		} catch(Exception ex) {
 			Datos.escribirLog("Error al abrir chat para el número: " + strCelularDestino);
 			Datos.escribirLog("Detalle del error: "+ex.getMessage()); 
+			Variables.blnpendiente = false; 
 		}    	
     }
     
     public void enviarsms()
     {   	
-    	try {
-    		Util.esperaObjeto(txtMensaje);
-			txtMensaje.sendKeys(Variables.Rst_Pendiente.getString("TEXTO"));
-			Util.esperaObjeto(iconSend);
-	    	iconSend.click();
-	    	Util.invisibleObjeto(By.xpath("//span[@data-icon=\"msg-time\"]"));
-//	    	Thread.sleep(1500);
-	    	Datos.escribirLog("-----------------------------------------------");
-	    	Datos.escribirLog("Se envió el mensaje al número: " + strCelularDestino);
-	    	Datos.escribirLog("-----------------------------------------------");
-    	} catch(Exception ex) {
-			Datos.escribirLog("ERROR al enviar mensaje al número: " + strCelularDestino);
-			Datos.escribirLog("Detalle del ERROR: "+ex.getMessage()); 			
-		}    	
+    	if(Variables.blnpendiente){
+    		try {
+        		Util.esperaObjeto(txtMensaje);
+    			txtMensaje.sendKeys(Variables.Rst_Pendiente.getString("TEXTO"));
+    			Util.esperaObjeto(iconSend);
+    	    	iconSend.click();
+    	    	Util.invisibleObjeto(By.xpath("//span[@data-icon=\"msg-time\"]"));
+    	    	Datos.escribirLog("-----------------------------------------------");
+    	    	Datos.escribirLog("Se envió el mensaje al número: " + strCelularDestino);
+    	    	Datos.escribirLog("-----------------------------------------------");
+        	} catch(Exception ex) {
+    			Datos.escribirLog("ERROR al enviar mensaje al número: " + strCelularDestino);
+    			Datos.escribirLog("Detalle del ERROR: "+ex.getMessage());
+    			Variables.blnpendiente=false;
+    		}    		
+    	}
     }
 }

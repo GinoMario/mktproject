@@ -8,14 +8,14 @@ public class Principal{
 
 	public static void main(String[] args) throws Throwable {
 
-    	int rpta = JOptionPane.showConfirmDialog( null,"Está por dar inicio al Robot. ¿Desea continuar?","CAMPAÑAS",JOptionPane.YES_NO_OPTION);
+    	int rpta = JOptionPane.showConfirmDialog( null,"Está por dar inicio al Robot.\n¿Desea continuar?","CAMPAÑAS",JOptionPane.YES_NO_OPTION);
     	
     	if (rpta == 0){
     		
     		Datos.crearLog();
     		
     		//ABRIR NAVEGADOR
-    		Util.launchapp();
+    		Util.launchapp();  		
     		 		
     		Robot robot = new Robot();
     		//ABRIR WHATSAPP
@@ -34,8 +34,7 @@ public class Principal{
 					//ENVIAR MENSAJE
 					robot.enviarsms();
 				}
-			}		
-
+			}
     	}
 	}
 }

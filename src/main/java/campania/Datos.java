@@ -2,7 +2,6 @@ package campania;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,7 +57,7 @@ public class Datos {
 		try
 	    {
 		    Conectar_Dp();		    
-		    Variables.Rst_Pendiente = Variables.Cnn.prepareCall("SELECT TOP 1 * FROM CAMPANIADETALLE CD INNER JOIN CAMPANIA C ON CD.CODCAMPANIA = C.CODCAMPANIA WHERE CD.ESTADODETALLEMA ='PENDIENTE' ORDER BY CD.CODCAMPANIADETALLE ASC").executeQuery();
+		    Variables.Rst_Pendiente = Variables.Cnn.prepareCall("SELECT TOP 1 * FROM CAMPANIADETALLE CAMD INNER JOIN CAMPANIA CAM ON CAMD.CODCAMPANIA = CAM.CODCAMPANIA INNER JOIN CLIENTEDETALLE CLID ON CLID.CODCLIENTEDETALLE = CAM.CODCLIENTEDETALLE WHERE CAMD.ESTADODETALLEMA ='PENDIENTE' AND CLID.NUMERO = '" + Variables.str_numero_origen + "' ORDER BY CAMD.CODCAMPANIADETALLE ASC").executeQuery();
 
 		   //Valida que existan scripts pendientes por ejecución
 		   if (Variables.Rst_Pendiente.next() == true) 
@@ -71,7 +70,7 @@ public class Datos {
 		}catch(Exception ex)
 		{
 			Variables.blnpendiente = false;
-			System.out.println("Error Datos.Schedule: " + ex.getMessage());
+			Datos.escribirLog("Error Datos.Schedule: " + ex.getMessage());
 		}    	
 	}   
 		
@@ -87,11 +86,10 @@ public class Datos {
 	
 	public static void crearLog()
 	{
-		Variables.dtFechaInicio = Util.ObtenerFecha();
-		String ruta_log="C:\\Robotwsp\\logs\\"+Variables.dtFechaInicio.replace("/", "").replace(" ", "").replace(":", "")+".txt";
-		Variables.archivo = new File(ruta_log);	
-		
-		escribirLog("**********SE INICIA EJECUCION**********");
+			Variables.dtFechaInicio = Util.ObtenerFecha();
+			String ruta_log="C:\\Robotwsp\\logs\\"+Variables.dtFechaInicio.replace("/", "").replace(" ", "").replace(":", "")+".txt";
+			Variables.archivo = new File(ruta_log);	
+			escribirLog("**********SE INICIA EJECUCION**********");
 	}
 	
 	public static void escribirLog(String log)
@@ -100,8 +98,9 @@ public class Datos {
 			Variables.fw = new FileWriter(Variables.archivo,true);
 			Variables.fw.write(log+"\r\n");
 			Variables.fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "No se encontró la ruta para almacenar logs, por favor comuniquese con su administrador");
+			System.exit(0);
 		}
 	}	
 }
