@@ -44,15 +44,16 @@ public class Robot{
     { 
     	try{
     		PageFactory.initElements(Variables.driver, this);
-    		Util.esperaObjeto(imgQR);
-    		JOptionPane.showMessageDialog(null, "Escanee el codigo QR.\nLuego presione el botón Aceptar", "Whatsapp Automation", JOptionPane.INFORMATION_MESSAGE);
+//    		Util.esperaObjeto(imgQR);
+//    		JOptionPane.showMessageDialog(null, "Escanee el codigo QR.\nLuego presione el botón Aceptar", "Whatsapp Automation", JOptionPane.INFORMATION_MESSAGE);
+    		formRobot.setCelular("a");
     		Util.esperaObjeto(imgCell);
     		Util.esperaObjeto(imgPerfil);
     		imgPerfil.click();
     		Util.esperaObjeto(lblNumeroOrigen);
     		Variables.str_numero_origen = lblNumeroOrigen.getText();
     		Datos.escribirLog("Se ingreso de manera correcta al número: "+Variables.str_numero_origen);
-    		btnBack.click();	
+    		btnBack.click();	 
     	}catch (Exception e) {
     		Datos.escribirLog("Error: No se pudo ingresar de manera correcta a la pagina Whatsapp Web, por favor inicie nuevamente el robot. Error: "+e.getMessage());
     		JOptionPane.showMessageDialog(null, "No se pudo ingresar de manera correcta a la pagina Whatsapp Web\nInicie nuevamente el robot.");

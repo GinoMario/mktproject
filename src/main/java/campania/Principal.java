@@ -6,7 +6,9 @@ import campania.Robot;
 
 public class Principal{
 
-	public static void main(String[] args) throws Throwable {
+	public static void main(){
+		
+		
 
     	int rpta = JOptionPane.showConfirmDialog( null,"Está por dar inicio al Robot.\n¿Desea continuar?","CAMPAÑAS",JOptionPane.YES_NO_OPTION);
     	
