@@ -1,5 +1,7 @@
 package campania;
 
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 
 import org.openqa.selenium.By;
@@ -40,13 +42,39 @@ public class Robot{
 	 @FindBy(how = How.XPATH, using = "//*[@id=\"app\"]/div/div/div[2]/div[1]/span/div/div/header/div/div[1]/button/span")
 	  private WebElement btnBack;
 
+	public static void setIniciar() {
+		Datos.crearLog();
+			
+		//ABRIR NAVEGADOR
+		Util.launchapp();  		
+			 		
+		Robot robot = new Robot();
+		//ABRIR WHATSAPP
+		robot.WspPage();			
+			
+		while(true){				
+			
+			//BUSCAR CAMPANIAS PENDIENTES
+			Datos.Schedule();
+
+			if(Variables.blnpendiente){
+					
+				//ABRIR CHAT X NUMERO
+				robot.abrirchat();
+					
+				//ENVIAR MENSAJE
+				robot.enviarsms();
+			}
+		}		
+	}
+	 
     public void WspPage()
     { 
     	try{
     		PageFactory.initElements(Variables.driver, this);
 //    		Util.esperaObjeto(imgQR);
 //    		JOptionPane.showMessageDialog(null, "Escanee el codigo QR.\nLuego presione el botón Aceptar", "Whatsapp Automation", JOptionPane.INFORMATION_MESSAGE);
-    		formRobot.setCelular("a");
+//    		formRobot.setCelular("a");
     		Util.esperaObjeto(imgCell);
     		Util.esperaObjeto(imgPerfil);
     		imgPerfil.click();
@@ -60,11 +88,20 @@ public class Robot{
     		cerrarPantallas();
 		}    	
     }
+    public static void salir()
+    { 
+    	System.exit(0);
+    }
+    
     public static void cerrarPantallas()
     { 
-    	Variables.driver.close();
-    	System.exit(0);    	
+      	try{
+//        	Runtime.getRuntime().exec("taskkill /F /IM chrome.exe");
+        	Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe");
+//    		Variables.driver.quit();
+    	}catch(Exception e){}
     }
+    
     
     public void ObtenerNumero()
     { 
