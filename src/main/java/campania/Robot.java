@@ -1,9 +1,5 @@
 package campania;
 
-import java.io.IOException;
-
-import javax.swing.JOptionPane;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,6 +10,8 @@ import campania.Variables;;
 public class Robot{
 	
 	String strCelularDestino = "";
+	static Robot robot = new Robot();
+	
 	
 	 @FindBy(how = How.XPATH, using = "//*[@id=\"app\"]/div/div/div[2]/div[1]/div[2]/div/img")
 	  private WebElement imgQR;
@@ -42,17 +40,20 @@ public class Robot{
 	 @FindBy(how = How.XPATH, using = "//*[@id=\"app\"]/div/div/div[2]/div[1]/span/div/div/header/div/div[1]/button/span")
 	  private WebElement btnBack;
 
-	public static void setIniciar() {
-		Datos.crearLog();
+	 public static void IniciarRobot() {
+			Datos.crearLog();
 			
-		//ABRIR NAVEGADOR
-		Util.launchapp();  		
-			 		
-		Robot robot = new Robot();
-		//ABRIR WHATSAPP
-		robot.WspPage();			
+			//ABRIR NAVEGADOR
+			Util.launchapp();  		
+				 		
+			//ABRIR WHATSAPP
+			robot.WspPage();		 
+	 }
+	 
+	 
+	public static void Schedule() {
 			
-		while(true){				
+		while(Variables.blnContinuar){				
 			
 			//BUSCAR CAMPANIAS PENDIENTES
 			Datos.Schedule();
@@ -81,11 +82,11 @@ public class Robot{
     		Util.esperaObjeto(lblNumeroOrigen);
     		Variables.str_numero_origen = lblNumeroOrigen.getText();
     		Datos.escribirLog("Se ingreso de manera correcta al número: "+Variables.str_numero_origen);
-    		btnBack.click();	 
+    		btnBack.click();	
+    		Variables.blnContinuar=true;
     	}catch (Exception e) {
     		Datos.escribirLog("Error: No se pudo ingresar de manera correcta a la pagina Whatsapp Web, por favor inicie nuevamente el robot. Error: "+e.getMessage());
-    		JOptionPane.showMessageDialog(null, "No se pudo ingresar de manera correcta a la pagina Whatsapp Web\nInicie nuevamente el robot.");
-    		cerrarPantallas();
+//    		JOptionPane.showMessageDialog(null, "No se pudo ingresar de manera correcta a la pagina Whatsapp Web\nInicie nuevamente el robot.");
 		}    	
     }
     public static void salir()
@@ -95,10 +96,10 @@ public class Robot{
     
     public static void cerrarPantallas()
     { 
-      	try{
-//        	Runtime.getRuntime().exec("taskkill /F /IM chrome.exe");
+      	try{      		
+        	Runtime.getRuntime().exec("taskkill /F /IM chrome.exe");
         	Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe");
-//    		Variables.driver.quit();
+        	Variables.driver.close();
     	}catch(Exception e){}
     }
     

@@ -14,7 +14,8 @@ public class Variables {
     public static Connection Cnn = null;
     public static ResultSet Rst_Pendiente = null; 
     public static String dtFechaInicio= null;
-    public static Boolean blnpendiente=false; 
+    public static Boolean blnpendiente=false;
+    public static Boolean blnContinuar=false; 
 	public static WebDriver driver;
 	public static BufferedWriter bw;
 	public static File archivo;

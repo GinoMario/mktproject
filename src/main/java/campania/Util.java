@@ -5,8 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.swing.JOptionPane;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -32,9 +30,9 @@ public class Util {
     		Variables.driver.manage().window().maximize();
     		Variables.driver.get("https://web.whatsapp.com/");    		
     	}catch (Exception e) {
-    		Datos.escribirLog("Error en Util.launchapp: No se encontró el driver Chrome. Error: "+e.getMessage());
-			JOptionPane.showMessageDialog(null, "No se encontró el driver Chrome, por favor comuniquese con su administrador");
-			Robot.cerrarPantallas();
+    		Datos.escribirLog("Error en Util.launchapp: Se detuvo la ejecución del driver Chrome. Error: "+e.getMessage());
+//			JOptionPane.showMessageDialog(null, "No se encontró el driver Chrome, por favor comuniquese con su administrador");
+//			Robot.cerrarPantallas();
 		}		
     }
     
