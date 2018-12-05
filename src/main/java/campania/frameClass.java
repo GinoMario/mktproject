@@ -36,13 +36,13 @@ public class frameClass extends JFrame{
 	public frameClass() {
 		
 		setLayout(null);
-		setUndecorated(true);
+//		setUndecorated(true);
 		getRootPane().setBorder(BorderFactory.createLineBorder(Color.blue, 2));
 		setType(Type.UTILITY);
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setAlwaysOnTop(true);
-//		setBounds(100, 100, 273, 178);
+		setBounds(100, 100, 273, 178);
 		
 		thehandler handler = new thehandler();
 		

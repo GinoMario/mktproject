@@ -57,7 +57,12 @@ public class Datos {
 		try
 	    {
 		    Conectar_Dp();		    
-		    Variables.Rst_Pendiente = Variables.Cnn.prepareCall("SELECT TOP 1 * FROM CAMPANIADETALLE CAMD INNER JOIN CAMPANIA CAM ON CAMD.CODCAMPANIA = CAM.CODCAMPANIA INNER JOIN CLIENTEDETALLE CLID ON CLID.CODCLIENTEDETALLE = CAM.CODCLIENTEDETALLE WHERE CAMD.ESTADODETALLEMA ='PENDIENTE' AND CLID.NUMERO = '" + Variables.str_numero_origen + "' ORDER BY CAMD.CODCAMPANIADETALLE ASC").executeQuery();
+		    Variables.Rst_Pendiente = Variables.Cnn.prepareCall("SELECT TOP 1 * FROM CAMPANIADETALLE "
+		    		+ "CAMD INNER JOIN CAMPANIA CAM ON CAMD.CODCAMPANIA = CAM.CODCAMPANIA INNER JOIN "
+		    		+ "CLIENTEDETALLE CLID ON CLID.CODCLIENTEDETALLE = CAM.CODCLIENTEDETALLE WHERE "
+		    		+ "CAMD.ESTADODETALLEMA ='PENDIENTE' AND CLID.NUMERO = '" + Variables.str_numero_origen 
+		    		+ "' AND CAM.FECHAPROGRAMADA <= '"+Util.ObtenerFecha()+"' AND CAM.ESTADOMA = 'APROBADO' "
+    				+ "ORDER BY CAMD.CODCAMPANIADETALLE ASC").executeQuery();
 
 		   //Valida que existan scripts pendientes por ejecución
 		   if (Variables.Rst_Pendiente.next() == true) 

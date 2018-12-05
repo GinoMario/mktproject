@@ -38,7 +38,7 @@ public class Util {
     
 	public static String ObtenerFecha()
 	{
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
 		String HoraActual = dateFormat.format(cal.getTime());
 		HoraActual = dateFormat.format(cal.getTime());
