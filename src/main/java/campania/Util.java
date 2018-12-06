@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Util {
 	
     public static void esperaObjeto(WebElement element) {    	
-        new WebDriverWait(Variables.driver, 60).until(ExpectedConditions.visibilityOf(element));        
+        new WebDriverWait(Variables.driver, 10).until(ExpectedConditions.visibilityOf(element));        
     }
     
 
@@ -28,7 +28,8 @@ public class Util {
     		System.setProperty("webdriver.chrome.driver", "C:\\Robotwsp\\chromedriver.exe");
     		Variables.driver = new ChromeDriver();
     		Variables.driver.manage().window().maximize();
-    		Variables.driver.get("https://web.whatsapp.com/");    		
+    		Variables.driver.get("https://web.whatsapp.com/");    
+    		
     	}catch (Exception e) {
     		Datos.escribirLog("Error en Util.launchapp: Se detuvo la ejecución del driver Chrome. Error: "+e.getMessage());
 //			JOptionPane.showMessageDialog(null, "No se encontró el driver Chrome, por favor comuniquese con su administrador");

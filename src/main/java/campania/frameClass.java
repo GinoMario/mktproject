@@ -12,7 +12,9 @@ public class frameClass extends JFrame{
 	private static JButton btnIniciar = new JButton("Iniciar");
 	private static JButton btnDetener = new JButton("Stop");
 	private static JButton btnSalir = new JButton("Salir");
-
+	static JLabel lblCelular = new JLabel("");
+	static JLabel lblStatus = new JLabel("");
+	
     private class thehandler implements ActionListener{
     	private looper looper;
     	
@@ -42,7 +44,8 @@ public class frameClass extends JFrame{
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setAlwaysOnTop(true);
-		setBounds(100, 100, 273, 178);
+		setBounds(0, 0, 273, 178);
+		setTitle("Robot Whatsapp");
 		
 		thehandler handler = new thehandler();
 		
@@ -56,23 +59,20 @@ public class frameClass extends JFrame{
 		
 		btnSalir.setBounds(176, 12, 73, 34);
 		add(btnSalir);
-		btnSalir.addActionListener(handler);
+		btnSalir.addActionListener(handler);		
 		
-		
-		JLabel lblStatus = new JLabel("");
-		lblStatus.setBounds(85, 90, 162, 26);
-		add(lblStatus);
-
-		JLabel lblCelular = new JLabel("");
-		lblCelular.setBounds(85, 57, 162, 26);
+		lblCelular.setBounds(105, 95, 300, 26);
 		add(lblCelular);
+
+		lblStatus.setBounds(105, 61, 300, 26);
+		add(lblStatus);
 		
-		JLabel lblNroCelular = new JLabel("Nro. Celular:");
-		lblNroCelular.setBounds(10, 66, 73, 14);
+		JLabel lblNroCelular = new JLabel("Celular Origen:");
+		lblNroCelular.setBounds(10, 101, 85, 14);
 		add(lblNroCelular);
 		
 		JLabel lblEstado = new JLabel("Estado:");
-		lblEstado.setBounds(10, 101, 62, 14);
+		lblEstado.setBounds(10, 66, 85, 14);		
 		add(lblEstado);	
 		
 		desactivarBtnStop();
@@ -96,4 +96,16 @@ public class frameClass extends JFrame{
 		btnSalir.setBackground(Color.LIGHT_GRAY);
 	}
 	
+	public static void setCelularOrigen(){
+		lblCelular.setText(Variables.str_numero_origen);			
+	}
+
+	public static void setStatus(String status){
+		lblStatus.setText(status);
+		if(status.equals("Ejecutando...")){
+			lblStatus.setForeground(Color.GREEN);
+		}else{
+			lblStatus.setForeground(Color.RED);
+		}
+	}
 }

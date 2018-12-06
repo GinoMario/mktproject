@@ -44,6 +44,7 @@ public class Robot{
 			Datos.crearLog();
 			
 			//ABRIR NAVEGADOR
+			frameClass.setStatus("Escanear QR");
 			Util.launchapp();  		
 				 		
 			//ABRIR WHATSAPP
@@ -59,12 +60,16 @@ public class Robot{
 			Datos.Schedule();
 
 			if(Variables.blnpendiente){
-					
+			
+				frameClass.setStatus("Ejecutando...");
+				
 				//ABRIR CHAT X NUMERO
 				robot.abrirchat();
 					
 				//ENVIAR MENSAJE
 				robot.enviarsms();
+			}else{
+				frameClass.setStatus("Esperando...");
 			}
 		}		
 	}
@@ -73,20 +78,17 @@ public class Robot{
     { 
     	try{
     		PageFactory.initElements(Variables.driver, this);
-//    		Util.esperaObjeto(imgQR);
-//    		JOptionPane.showMessageDialog(null, "Escanee el codigo QR.\nLuego presione el botón Aceptar", "Whatsapp Automation", JOptionPane.INFORMATION_MESSAGE);
-//    		formRobot.setCelular("a");
     		Util.esperaObjeto(imgCell);
-    		Util.esperaObjeto(imgPerfil);
-    		imgPerfil.click();
-    		Util.esperaObjeto(lblNumeroOrigen);
-    		Variables.str_numero_origen = lblNumeroOrigen.getText();
+    		
+    		ObtenerNumero();
+    		frameClass.setCelularOrigen();
+    		
+    		frameClass.setStatus("Esperando...");
+    		
     		Datos.escribirLog("Se ingreso de manera correcta al número: "+Variables.str_numero_origen);
-    		btnBack.click();	
     		Variables.blnContinuar=true;
     	}catch (Exception e) {
     		Datos.escribirLog("Error: No se pudo ingresar de manera correcta a la pagina Whatsapp Web, por favor inicie nuevamente el robot. Error: "+e.getMessage());
-//    		JOptionPane.showMessageDialog(null, "No se pudo ingresar de manera correcta a la pagina Whatsapp Web\nInicie nuevamente el robot.");
 		}    	
     }
     public static void salir()
@@ -119,11 +121,13 @@ public class Robot{
     		strCelularDestino = Variables.Rst_Pendiente.getString("NUMERO");
 			Variables.driver.get("https://api.whatsapp.com/send?phone="+strCelularDestino);
 			Util.esperaObjeto(btnEnviar);
-	    	btnEnviar.click();
+	    	btnEnviar.click(); 	
+	    	
 		} catch(Exception ex) {
-			Datos.escribirLog("Error al abrir chat para el número: " + strCelularDestino);
-			Datos.escribirLog("Detalle del error: "+ex.getMessage()); 
+			Datos.ActualizarRegistro(false);
 			Variables.blnpendiente = false; 
+			Datos.escribirLog("Error al abrir chat para el número: " + strCelularDestino);
+			Datos.escribirLog("Detalle del error: "+ex.getMessage());
 		}    	
     }
     
@@ -136,10 +140,12 @@ public class Robot{
     			Util.esperaObjeto(iconSend);
     	    	iconSend.click();
     	    	Util.invisibleObjeto(By.xpath("//span[@data-icon=\"msg-time\"]"));
+    	    	Datos.ActualizarRegistro(true);
     	    	Datos.escribirLog("-----------------------------------------------");
     	    	Datos.escribirLog("Se envió el mensaje al número: " + strCelularDestino);
     	    	Datos.escribirLog("-----------------------------------------------");
         	} catch(Exception ex) {
+        		Datos.ActualizarRegistro(false);
     			Datos.escribirLog("ERROR al enviar mensaje al número: " + strCelularDestino);
     			Datos.escribirLog("Detalle del ERROR: "+ex.getMessage());
     			Variables.blnpendiente=false;

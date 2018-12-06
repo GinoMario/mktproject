@@ -67,18 +67,30 @@ public class Datos {
 		   //Valida que existan scripts pendientes por ejecución
 		   if (Variables.Rst_Pendiente.next() == true) 
 		   {
-		          	Variables.blnpendiente = true;
-		           	
-		           	//ACTUALIZA REGISTRO
-		           	Variables.Cnn.prepareCall( "UPDATE CAMPANIADETALLE SET ESTADODETALLEMA = 'EJECUTADO' WHERE CODCAMPANIADETALLE = " + Variables.Rst_Pendiente.getString("CODCAMPANIADETALLE")).execute();
+		          	Variables.blnpendiente = true;      	
 		   }
 		}catch(Exception ex)
 		{
 			Variables.blnpendiente = false;
 			Datos.escribirLog("Error Datos.Schedule: " + ex.getMessage());
-		}    	
+		}
 	}   
 		
+	public static void ActualizarRegistro(boolean Result)
+	{
+		try
+	    {
+			if(Result==true){
+	           	//ACTUALIZA REGISTRO
+	           	Variables.Cnn.prepareCall( "UPDATE CAMPANIADETALLE SET ESTADODETALLEMA = 'EXITOSO' WHERE CODCAMPANIADETALLE = " + Variables.Rst_Pendiente.getString("CODCAMPANIADETALLE")).execute();			
+			}else{
+				Variables.Cnn.prepareCall( "UPDATE CAMPANIADETALLE SET ESTADODETALLEMA = 'ERROR' WHERE CODCAMPANIADETALLE = " + Variables.Rst_Pendiente.getString("CODCAMPANIADETALLE")).execute();
+			}
+	    }catch(Exception ex)
+		{
+			Datos.escribirLog("Error Datos.ActualizarRegistro: " + ex.getMessage());
+		}
+	}
 	
 	public static void Desconectar_Sql()
 	{
