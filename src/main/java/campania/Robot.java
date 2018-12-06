@@ -97,8 +97,8 @@ public class Robot{
     public static void cerrarPantallas()
     { 
       	try{      		
-        	Runtime.getRuntime().exec("taskkill /F /IM chrome.exe");
-        	Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe");
+//        	Runtime.getRuntime().exec("taskkill /F /IM chrome.exe");
+//        	Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe");
         	Variables.driver.close();
     	}catch(Exception e){}
     }
