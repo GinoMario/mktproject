@@ -46,6 +46,7 @@ public class frameClass extends JFrame{
 		setAlwaysOnTop(true);
 		setBounds(0, 0, 273, 178);
 		setTitle("Robot Whatsapp");
+		setResizable(false);
 		
 		thehandler handler = new thehandler();
 		
